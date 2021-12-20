@@ -6,6 +6,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Web;
+using MotivationalQuotes.Domain.Common;
 using MotivationalQuotes.Domain;
 
 namespace MotivationalQuotes.Functions
@@ -30,10 +31,12 @@ namespace MotivationalQuotes.Functions
 
             // parse category as enum value
             QuoteCategory category = (QuoteCategory)categoryNumber;
+            var quoteFactory = new QuoteFactory(category);
+            var quote = quoteFactory.CreateQuote(category);
+
 
             HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-            response.WriteString($"This quote belongs to the {category} category");
+            await response.WriteAsJsonAsync(quote);
 
             return response;
         }
