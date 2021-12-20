@@ -1,7 +1,10 @@
 <template>
   <div class="hello">
     <h1>Welcome to the land of Motivational Quotes!</h1>
-    <h3>Here's an exciting quote: {{ Hello }} </h3>
+    <h3>Here are some exciting quotes:</h3>
+    <h3 v-for="(quote, i) in excitingQuotes" :key="i">
+      {{ quote.text }}
+    </h3>
   </div>
 </template>
 
@@ -19,11 +22,10 @@ export default {
 
     if (excitingQuotes.length > 0) {
       return {
-        ExcitingQuote: ref(excitingQuotes[0]),
-        Hello: ref("Hello!")
+        excitingQuotes: ref(excitingQuotes),
       };
     }
-  },
+  }
 };
 </script>
 
