@@ -11,7 +11,6 @@ export class QuoteService {
 
         if (response.data.length > 0) {
             searchQuoteResponse = response.data;
-            console.log(searchQuoteResponse);
         }
 
         return searchQuoteResponse;

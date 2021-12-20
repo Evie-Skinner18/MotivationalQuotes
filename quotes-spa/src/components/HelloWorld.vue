@@ -1,32 +1,41 @@
 <template>
   <div class="hello">
-    <h1>Welcome to the land of Motivational Quotes!</h1>
-    <h3>Here are some exciting quotes:</h3>
-    <h3 v-for="(quote, i) in excitingQuotes" :key="i">
-      {{ quote.text }}
+    <h1>Welcome to the land of Motivational Quotes</h1>
+    <button v-for="(category, i) in quoteCategories" 
+      :key="i"
+      @click="getQuotes(i)">
+      Click for {{ category }} quote
+    </button>
+    <h3 v-for="(quote, i) in quotes" :key="i">
+      {{ quote.Text }}
+      - {{ quote.Author }}
     </h3>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from "@vue/runtime-core";
+import { Vue } from "vue-class-component";
 import { QuoteService } from "../services/QuoteService";
 import { IQuote, QuoteCategory } from "@/services/Quotes-dtos";
 
-export default {
-  async setup(): Promise<unknown> {
-    const quoteService = new QuoteService();
-    const excitingQuotes: IQuote[] = await quoteService.searchQuotesByCategory(
-      QuoteCategory.Exciting
-    );
+export default class HelloWorld extends Vue {
+  quotes: IQuote[] = [];
+  quoteService = new QuoteService();
+  quoteCategories: string[] = [
+    QuoteCategory[QuoteCategory.Humorous],
+    QuoteCategory[QuoteCategory.TearJerker],
+    QuoteCategory[QuoteCategory.Exciting]
+  ];
 
-    if (excitingQuotes.length > 0) {
-      return {
-        excitingQuotes: ref(excitingQuotes),
-      };
-    }
+  async getQuotes(categoryIndex: number): Promise<void> {
+    const categoryNumber = categoryIndex + 1;
+
+    const quotes: IQuote[] =
+      await this.quoteService.searchQuotesByCategory(categoryNumber);
+
+    this.quotes = quotes.length > 0 ? quotes : [];
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

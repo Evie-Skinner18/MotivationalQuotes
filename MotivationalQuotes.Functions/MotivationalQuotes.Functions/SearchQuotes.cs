@@ -13,7 +13,6 @@ namespace MotivationalQuotes.Functions
 {
     public static class SearchQuotes
     {
-        // search by author, subject or category
         [Function("SearchQuotes")]
         public static async Task<HttpResponseData> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "quotes/search")] HttpRequestData req,
@@ -29,7 +28,6 @@ namespace MotivationalQuotes.Functions
 
             int categoryNumber = Int32.Parse(categoryString);
 
-            // parse category as enum value
             QuoteCategory category = (QuoteCategory)categoryNumber;
             var quoteFactory = new QuoteFactory(category);
             var quotesFound = new List<IQuote>() { quoteFactory.CreateQuote(category) };
