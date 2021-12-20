@@ -32,11 +32,10 @@ namespace MotivationalQuotes.Functions
             // parse category as enum value
             QuoteCategory category = (QuoteCategory)categoryNumber;
             var quoteFactory = new QuoteFactory(category);
-            var quote = quoteFactory.CreateQuote(category);
-
+            var quotesFound = new List<IQuote>() { quoteFactory.CreateQuote(category) };
 
             HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(quote);
+            await response.WriteAsJsonAsync(quotesFound);
 
             return response;
         }
