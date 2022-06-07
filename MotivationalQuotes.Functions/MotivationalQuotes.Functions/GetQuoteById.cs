@@ -28,7 +28,7 @@ namespace MotivationalQuotes.Functions
             HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
-            response.WriteString($"The quote with id {id} is 'All's well that ends well'");
+            await response.WriteStringAsync($"The quote with id {id} is 'All's well that ends well'");
             return response;
         }
     }
